@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>FOIA Coverage</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#e7f4f7;
+  --card:#e7f4f7;
+  --muted:#414042;
+  --text:#414042;
+  --accent:#29264B;
+}
+html,body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Montserrat', system-ui, sans-serif;
+  margin:0;
+}
+.wrap{max-width:1100px;margin:24px auto;padding:0 16px 40px;}
+.panel{background:var(--card);border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.25);margin-top:16px;}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:12px;}
+.card{border-radius:16px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,.25);background:var(--card);}
+.kpi{grid-column:span 4;}
+.label{font-size:13px;color:var(--muted);font-weight:700;}
+.value{font-size:28px;font-weight:800;color:var(--accent);}
+.sub{margin-top:6px;font-size:13px;color:#414042;font-weight:500;}
+.notes{
+  background:#fff;
+  border-radius:12px;
+  padding:10px 12px;
+  margin-top:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+  white-space:pre-wrap;
+  line-height:1.4;
+}
+.tableWrap{
+  margin-top:14px;
+  background:#fff;
+  border-radius:12px;
+  padding:10px 12px;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+th, td{
+  text-align:left;
+  padding:10px 8px;
+  border-bottom:1px solid rgba(0,0,0,.08);
+  vertical-align:top;
+}
+th{
+  color:var(--muted);
+  font-weight:700;
+}
+td strong{color:var(--accent);}
+.badge{
+  display:inline-block;
+  font-size:12px;
+  font-weight:700;
+  padding:2px 8px;
+  border-radius:999px;
+  background:rgba(41,38,75,.10);
+  color:var(--accent);
+}
+@media (max-width: 900px){
+  .kpi{grid-column:span 12;}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1 style="margin:0;color:var(--accent);font-size:22px;font-weight:700;">
+    FOIA Coverage of Selected Districts
+  </h1>
+  <div id="summaryLine" style="margin-top:6px;color:var(--muted);font-weight:600;"></div>
+
+  <div class="panel">
+    <div class="grid">
+      <div class="card kpi">
+        <div class="label">Selected districts found in Texas OR California FOIA Bridge</div>
+        <div class="value" id="kpiAny"></div>
+        <div class="sub">Of all selected districts, appears in at least one FOIA response Bridge (TX or CA)</div>
+      </div>
+
+      <div class="card kpi">
+        <div class="label">Selected Texas districts found in Texas FOIA Bridge</div>
+        <div class="value" id="kpiTX"></div>
+        <div class="sub">Of the selected Texas districts, appears in the Texas FOIA response Bridge</div>
+      </div>
+
+      <div class="card kpi">
+        <div class="label">Selected California districts found in California FOIA Bridge</div>
+        <div class="value" id="kpiCA"></div>
+        <div class="sub">Of the selected California districts, appears in the California FOIA response Bridge</div>
+      </div>
+    </div>
+
+    <div class="tableWrap">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div style="font-weight:800;color:var(--accent);">Coverage by State</div>
+      </div>
+      <div style="margin-top:6px;color:var(--muted);font-weight:600;font-size:12px;">
+
+      </div>
+      <div style="overflow:auto;margin-top:8px;">
+        <table>
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>FOIA's Sent</th>
+              <th>Found in state FOIA Bridgee</th>
+              <th>Response rate</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="stateTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="notes" id="notesBox"></div>
+  </div>
+
+  <small style="display:block;margin-top:12px;color:var(--muted);font-weight:600;">
+    Generated: <span id="genTs"></span>
+  </small>
+</div>
+
+<script type="application/json" id="reportData">{"generated_ts": "2026-01-30 12:00", "notes": "This dashboard answers one question:\nHow many of the selected districts appear in the FOIA response files with <strong>Contracts</strong>\n\nWe show:\n- Overall coverage: Covered by either (Texas OR California)\n- Texas completeness: Of the selected Texas districts, how many appear in the Texas FOIA file\n- California completeness: Of the selected California districts, how many appear in the California FOIA file\n\nThe selected list is all ofthe districts we sent FOIAs to through Starbrdige.\nTX and CA are the response pulls with contract data.\n\nThere are many districts who only responded with Purchase Order data so they are not included in these numbers yet.\nStarbridge is working on a way to cleanly help me extract that data.\n\nAccording to the SB team the overall rates are", "metrics": {"selected_total": 1671, "selected_tx_total": 890, "selected_ca_total": 781, "any_found": 319, "any_pct": 19.09, "tx_found": 280, "tx_pct": 31.46, "ca_found": 39, "ca_pct": 4.99}, "state_breakout": [{"state": "TX", "selected_should_be": 890, "found_in_state_file": 280, "response_rate_pct": 31.46, "notes": "Compared against TX FOIA file"}, {"state": "CA", "selected_should_be": 781, "found_in_state_file": 39, "response_rate_pct": 4.99, "notes": "Compared against CA FOIA file"}]}</script>
+
+<script>
+(function(){
+  const payload = JSON.parse(document.getElementById("reportData").textContent || "{}");
+  const M = payload.metrics || {};
+  const rows = payload.state_breakout || [];
+
+  function fmt(found, total, pct){
+    return `${found || 0} of ${total || 0} (${pct || 0}%)`;
+  }
+
+  // KPIs (correct denominators)
+  document.getElementById("kpiAny").textContent = fmt(M.any_found, M.selected_total,    M.any_pct);
+  document.getElementById("kpiTX").textContent  = fmt(M.tx_found,  M.selected_tx_total, M.tx_pct);
+  document.getElementById("kpiCA").textContent  = fmt(M.ca_found,  M.selected_ca_total, M.ca_pct);
+
+  document.getElementById("notesBox").innerHTML = payload.notes || "";
+  document.getElementById("genTs").textContent = payload.generated_ts || "";
+
+  document.getElementById("summaryLine").textContent =
+    `Selected overall: ${M.selected_total || 0} • ` +
+    `TX selected: ${M.selected_tx_total || 0} (found: ${M.tx_found || 0}) • ` +
+    `CA selected: ${M.selected_ca_total || 0} (found: ${M.ca_found || 0}) • ` +
+    `Overall found in TX or CA: ${M.any_found || 0}`;
+
+  // State table
+  const tbody = document.getElementById("stateTbody");
+  tbody.innerHTML = "";
+
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+
+    const tdState = document.createElement("td");
+    tdState.innerHTML = `<strong>${r.state ?? ""}</strong>`;
+    tr.appendChild(tdState);
+
+    const tdShould = document.createElement("td");
+    tdShould.textContent = (r.selected_should_be ?? 0).toString();
+    tr.appendChild(tdShould);
+
+    const tdFound = document.createElement("td");
+    tdFound.textContent = (r.found_in_state_file == null) ? "N/A" : r.found_in_state_file.toString();
+    tr.appendChild(tdFound);
+
+    const tdRate = document.createElement("td");
+    tdRate.textContent = (r.response_rate_pct == null) ? "N/A" : `${r.response_rate_pct}%`;
+    tr.appendChild(tdRate);
+
+    const tdNotes = document.createElement("td");
+    tdNotes.textContent = r.notes ?? "";
+    tr.appendChild(tdNotes);
+
+    tbody.appendChild(tr);
+  });
+})();
+</script>
+</body>
+</html>
